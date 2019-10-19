@@ -5,6 +5,9 @@ var P = new Pokedex();
 
 var app = express();
 
+const cors = require("cors");
+const port = process.env.PORT || 3001
+
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
@@ -18,14 +21,25 @@ var connection = mysql.createConnection({
 	database:'pokemon'
 });
 
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-app.get('/', function(req, res){
 
-	connection.query('SELECT * FROM lista_de_pokemons', function(error, results){
-	console.log(error);
-		res.render('index', {page_title: "Lista de Pokemons", data: results});
+app.get('/all', function(req, res){
+
+	connection.query('SELECT * FROM lista_de_pokemons', function(error, results, fields){
+		if (error) throw error;
+		
+		new_results={"express":{}}
+		for (var i in [...Array(results.length).keys()]){
+			new_results.express[results[i].game_id.toString()]=results[i]
+		}
+		
+		res.json(results);
+		// res.json({express:'hello'})
 	});
 		
 });
@@ -37,8 +51,7 @@ app.post('/selecao', function(req, res){
 		const values = [req.body.tipo,req.body.tipo];
 		connection.query(sql, values, function(error, results, fields){
 			if (error) return console.log(error);
-			
-			res.render('index', {page_title: "Lista de Pokemons", data: results});
+			res.json(results)
 			});
 		
 });
@@ -58,7 +71,7 @@ app.post('/cadastro', function(req, res){
 		}
 });
 app.get('/register', function(req, res){
-	res.sendFile(__dirname + '/register.html');
+	res.sendFile(__dirname + '../pages/home');
 });
 
 app.post('/login', function(req, res){
@@ -92,6 +105,10 @@ app.get('/pesquisa', function(req, res){
 	res.sendFile(__dirname + '/form.html');
 });
 
+app.get('/home', function(req, res){
+	res.send('/form.html');
+});
+
 
 
 app.post('/pesquisa', function(req, res){
@@ -101,6 +118,6 @@ app.post('/pesquisa', function(req, res){
 	});
 });
 
-app.listen(3000, function(){
-	console.log('Servidor rodando na 3000!');
+app.listen(port, function(){
+	console.log(port);
 });

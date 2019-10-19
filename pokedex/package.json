@@ -1,8 +1,10 @@
 {
   "name": "pokedex",
+  "proxy": "http://localhost:3001/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cors": "^2.8.5",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-router-dom": "^5.1.2",
