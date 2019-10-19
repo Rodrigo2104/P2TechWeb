@@ -8,15 +8,35 @@ export default class Main extends Component {
 	    super(props);
 
 	    this.state = {
-    	response:''
+    	response:[],
+    	lista_de_tipos:[
+    					'normal',
+    					'fighting',
+    					'flying',
+    					'poison',
+    					'ground',
+    					'rock',
+    					'bug',
+    					'ghost',
+    					'steel',
+    					'fire',
+    					'water',
+    					'grass',
+    					'electric',
+    					'psychic',
+    					'ice',
+    					'dragon',
+    					'dark',
+    					'fairy'
+    					],
+  		initial:'false'
+
   	};
 	}
 
-	
-
 	componentDidMount() {
 	    this.callApi()
-	      .then(res => this.setState({ response: res[0]}))
+	      .then(res => this.setState({ response: res}))
 	      .catch(err => console.log(err));
 	      console.log(this.state.response);
 	  }
@@ -43,28 +63,49 @@ export default class Main extends Component {
     
 //     this.setState({ responseToPost: body });
 //   };
-	
 
 	render() {
 
 
 		return (
 			<div>
-			{this.state.response.game_id}
+
+			<form action="/all" method="post">
+			<fieldset>
+			<h1>Tipos</h1>
+			{this.state.lista_de_tipos.map(tipo => 
+				<label class="container">
+				<input type="checkbox" name="tipo" value={tipo} ></input><span class="checkmark"></span>{tipo}<br></br>
+				</label>
+				)}	
+
+			<input type="submit" value="Pesquisar" name="search"></input>
+			</fieldset>
+			</form>
 			
-				<table>
-					<tr>
-						<th>Id</th>
-						<th>Nome</th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>2</td>
-					</tr>
 
+			<table>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Aparência</th>
+			</tr>
+			{this.state.response.map(poke => 
+				
+					<tr>	
+						<td>{poke.game_id}</td>
+						<td>{poke.nome}</td>
+						<td><img src={poke.sprite_front_default}></img></td>
+					</tr>
+			)}
 				</table>
-
 			</div>
+			
+
+
+			
 			)
 	}
 }
+
+

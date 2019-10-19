@@ -16,8 +16,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 var connection = mysql.createConnection({
 	host: 'localhost',
-	user: 'evandro',
-	password:'888941',
+	user: 'root',
+	password:'0t0rr1n0l4r1ng0l0g1st4',
 	database:'pokemon'
 });
 
@@ -29,23 +29,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/all', function(req, res){
-
+	
 	connection.query('SELECT * FROM lista_de_pokemons', function(error, results, fields){
 		if (error) throw error;
-		
-		new_results={"express":{}}
-		for (var i in [...Array(results.length).keys()]){
-			new_results.express[results[i].game_id.toString()]=results[i]
-		}
-		
+			
 		res.json(results);
-		// res.json({express:'hello'})
+				// res.json({express:'hello'})
 	});
-		
+
 });
 
-app.post('/selecao', function(req, res){
-		
+app.post('/all', function(req, res){
+	if (Object.prototype.toString.call(req.body.tipo)=="[object Undefined]"){
+		connection.query('SELECT * FROM lista_de_pokemons', function(error, results, fields){
+			if (error) throw error;
+			
+			res.json(results);
+				// res.json({express:'hello'})
+		});
+	}
+	else{
 		const sql = "SELECT * FROM lista_de_pokemons WHERE tipo1 IN (?) OR tipo2 IN (?)";
 
 		const values = [req.body.tipo,req.body.tipo];
@@ -53,7 +56,19 @@ app.post('/selecao', function(req, res){
 			if (error) return console.log(error);
 			res.json(results)
 			});
-		
+	}
+});
+
+app.post('/selecao', function(req, res){
+		console.log(Object.prototype.toString.call(req.body.tipo)=="[object Undefined]")
+
+		const sql = "SELECT * FROM lista_de_pokemons WHERE tipo1 IN (?) OR tipo2 IN (?)";
+
+		const values = [req.body.tipo,req.body.tipo];
+		connection.query(sql, values, function(error, results, fields){
+			if (error) return console.log(error);
+			res.json(results)
+			});
 });
 
 app.post('/cadastro', function(req, res){
@@ -71,7 +86,7 @@ app.post('/cadastro', function(req, res){
 		}
 });
 app.get('/register', function(req, res){
-	res.sendFile(__dirname + '../pages/home');
+	res.sendFile(__dirname + '/../pages/home');
 });
 
 app.post('/login', function(req, res){
