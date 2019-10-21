@@ -16,8 +16,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 var connection = mysql.createConnection({
 	host: 'localhost',
-	user: 'root',
-	password:'0t0rr1n0l4r1ng0l0g1st4',
+	user: 'evandro',
+	password:'888941',
 	database:'pokemon'
 });
 
@@ -91,24 +91,28 @@ app.get('/register', function(req, res){
 
 app.post('/login', function(req, res){
 		console.log("entrou na função login!")
+		console.log(req.body.login)
+		console.log(req.body.password)
 		const sql = "SELECT * FROM users WHERE login = (?) AND password = (?)";
-		const login = req.login;
-		const password = req.password;
+		const login = req.body.login;
+		const password = req.body.password;
+		console.log(login + " Chupou " + password + " pintos!")
 		if (login && password){
 			const values = [[login],[password]];
 			connection.query(sql, values, function(error, results, fields){
 				if (error) return console.log(error);
 				if (results.length > 0){
 					console.log(req.body.login + " logado!");
-					res.redirect('/');
+					return res.json({answer:'true'});
+					// return res.redirect('http://localhost:3000/home');
 				} else {
 					console.log("login ou senha incorreto!");
-					res.redirect('/register');
+					res.json({answer:'false'});
 				}
 			});
 		} else {
 			console.log("Erro no login!");
-			res.redirect('/register');
+			res.json({answer:'false'});
 		}
 		
 		
