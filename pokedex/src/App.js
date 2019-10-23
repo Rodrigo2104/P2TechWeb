@@ -6,6 +6,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import login from "./pages/login";
 import register from "./pages/register";
 import home from "./pages/home";
+import search from "./pages/search";
 
 function App() {
 
@@ -37,6 +38,10 @@ function App() {
 
             <Switch>
                 <Route exact path='/home' component={home} />
+            </Switch>
+
+            <Switch>
+                <Route exact path='/search' component={search} />
             </Switch>
         </BrowserRouter>
 

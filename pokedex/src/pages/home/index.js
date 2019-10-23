@@ -8,28 +8,7 @@ export default class Main extends Component {
 	    super(props);
 
 	    this.state = {
-    	response:[],
-    	lista_de_tipos:[
-    					'normal',
-    					'fighting',
-    					'flying',
-    					'poison',
-    					'ground',
-    					'rock',
-    					'bug',
-    					'ghost',
-    					'steel',
-    					'fire',
-    					'water',
-    					'grass',
-    					'electric',
-    					'psychic',
-    					'ice',
-    					'dragon',
-    					'dark',
-    					'fairy'
-    					],
-  		initial:'false'
+    	response:[]
 
   	};
 	}
@@ -69,21 +48,6 @@ export default class Main extends Component {
 
 		return (
 			<div>
-
-			<form action="/all" method="post">
-			<fieldset>
-			<h1>Tipos</h1>
-			{this.state.lista_de_tipos.map(tipo => 
-				<label className="container">
-				<input type="checkbox" name="tipo" value={tipo} ></input><span className="checkmark"></span>{tipo}<br></br>
-				</label>
-				)}	
-
-			<input type="submit" value="Pesquisar" name="search"></input>
-			</fieldset>
-			</form>
-			
-
 			<table>
 			<tr>
 				<th>Id</th>
