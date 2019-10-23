@@ -74,8 +74,8 @@ export default class Main extends Component {
 			<fieldset>
 			<h1>Tipos</h1>
 			{this.state.lista_de_tipos.map(tipo => 
-				<label class="container">
-				<input type="checkbox" name="tipo" value={tipo} ></input><span class="checkmark"></span>{tipo}<br></br>
+				<label className="container">
+				<input type="checkbox" name="tipo" value={tipo} ></input><span className="checkmark"></span>{tipo}<br></br>
 				</label>
 				)}	
 
