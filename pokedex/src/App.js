@@ -4,6 +4,7 @@ import './App.css';
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 
 import login from "./pages/login";
+import register from "./pages/register";
 import home from "./pages/home";
 
 function App() {
@@ -28,6 +29,10 @@ function App() {
         <BrowserRouter>
             <Switch>
                 <Route exact path='/login' component={login} />
+            </Switch>
+
+            <Switch>
+                <Route exact path='/register' component={register} />
             </Switch>
 
             <Switch>

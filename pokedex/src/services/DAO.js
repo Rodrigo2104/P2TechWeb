@@ -71,23 +71,27 @@ app.post('/selecao', function(req, res){
 			});
 });
 
-app.post('/cadastro', function(req, res){
-		
-		const sql = "INSERT INTO users (login,password,name) VALUES (?)";
+app.post('/register', function(req, res){
+		console.log("Entrou no registro!")
+		console.log(req.body)
+		console.log(req.body.name);
+		console.log(req.body.login);
+		console.log(req.body.password);
+		const sql = "INSERT INTO users (login,password,name) VALUES (?,?,?)";
 
-		const values = [[req.body.login,req.body.password,req.body.name]];
-		if (req.body.password === req.body.confirmpassword){
-		connection.query(sql, values, function(error, results, fields){
-			if (error) return console.log(error);
-		});
-		res.redirect('/register');
+
+		const values = [req.body.login,req.body.password,req.body.name];
+		if (req.body.password === req.body.confirmPassword){
+			console.log("Confirmou senha!")
+			connection.query(sql, values, function(error, results, fields){
+				if (error) return console.log(error);
+			});
 		} else {
-			res.redirect('/register');
+			res.send("Erro no casdastro.");
 		}
+		res.redirect('http://localhost:3000/home');
 });
-app.get('/register', function(req, res){
-	res.sendFile(__dirname + '/../pages/home');
-});
+
 
 app.post('/login', function(req, res){
 		console.log("entrou na função login!")
@@ -96,7 +100,6 @@ app.post('/login', function(req, res){
 		const sql = "SELECT * FROM users WHERE login = (?) AND password = (?)";
 		const login = req.body.login;
 		const password = req.body.password;
-		console.log(login + " Chupou " + password + " pintos!")
 		if (login && password){
 			const values = [[login],[password]];
 			connection.query(sql, values, function(error, results, fields){
